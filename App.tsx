@@ -1,36 +1,6 @@
 
 import React, { useState, useEffect, useRef } from 'react';
-import { ApartnerLogo, AppStoreIcon, GooglePlayIcon, YardiLogo, FeatureIcon } from './components/icons';
-
-// HOOK for scroll animations
-const useOnScreen = <T extends Element,>(options?: IntersectionObserverInit): [React.RefObject<T>, boolean] => {
-  const ref = useRef<T>(null);
-  const [isIntersecting, setIntersecting] = useState(false);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(([entry]) => {
-      if (entry.isIntersecting) {
-        setIntersecting(true);
-        if (ref.current) {
-          observer.unobserve(ref.current);
-        }
-      }
-    }, options);
-
-    if (ref.current) {
-      observer.observe(ref.current);
-    }
-
-    return () => {
-      if (ref.current) {
-        observer.unobserve(ref.current);
-      }
-    };
-  }, [options]);
-
-  return [ref, isIntersecting];
-};
-
+import { ApartnerLogo, AppStoreIcon, GooglePlayIcon, YardiLogo, FeatureIcon, SpinnerIcon, SuccessIcon, ErrorIcon, StarIcon } from './components/icons';
 
 // HELPER component for animated sections
 const AnimatedSection: React.FC<{ children: React.ReactNode; className?: string }> = ({ children, className = '' }) => {
@@ -95,7 +65,7 @@ const Hero: React.FC = () => {
     return (
         <section
             className="h-screen min-h-[700px] w-full flex items-center justify-center text-center text-white parallax"
-            style={{ backgroundImage: `url('https://images.unsplash.com/photo-1613944118292-43891041183c?q=80&w=1920&auto=format&fit=crop')` }}
+            style={{ backgroundImage: `url('https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?q=80&w=2070&auto=format&fit=crop')` }}
         >
             <div className="absolute inset-0" style={{background: 'linear-gradient(to top, rgba(13, 26, 38, 1) 10%, rgba(13, 26, 38, 0.2) 80%)'}}></div>
             <div className="relative z-10 px-4">
@@ -205,6 +175,21 @@ const Features: React.FC = () => {
     );
 };
 
+const MiniCTA: React.FC<{title: string; text: string; buttonText: string; buttonLink: string;}> = ({title, text, buttonText, buttonLink}) => (
+    <div className="bg-brand-dark py-16">
+        <AnimatedSection>
+            <div className="container mx-auto px-6 text-center">
+                <h3 className="text-2xl md:text-3xl font-bold mb-3">{title}</h3>
+                <p className="text-slate-400 max-w-2xl mx-auto mb-8">{text}</p>
+                <a href={buttonLink} className="btn-gold font-bold py-3 px-8 rounded-full shadow-lg inline-block">
+                    {buttonText}
+                </a>
+            </div>
+        </AnimatedSection>
+    </div>
+);
+
+
 const Customization: React.FC = () => {
     const hexFeatures: ('rent' | 'maintenance' | 'community' | 'smart' | 'marketplace' | 'amenities')[] = ['rent', 'maintenance', 'community', 'smart', 'marketplace', 'amenities'];
     return (
@@ -303,22 +288,150 @@ const Integrations: React.FC = () => {
     )
 }
 
-const CallToAction: React.FC = () => {
+const Testimonials: React.FC = () => {
+    const reviews = [
+        {
+            quote: "Apartner completely flipped our perspective on tenant apps. What used to be a cost center is now a legitimate, hassle-free revenue stream. Our residents are more engaged, and seeing that monthly check from Apartner is just incredible. It’s a true no-brainer.",
+            customer: "Haverly Stone Mountain",
+            role: "Sarah Jenkins, Property Director"
+        },
+        {
+            quote: "The feedback from our residents has been overwhelmingly positive. They love having a single app for rent, maintenance, and community events. Engagement has skyrocketed, and our team saves hours every week. Apartner has become an indispensable part of our community.",
+            customer: "PinLake Apartments",
+            role: "Michael Chen, Community Manager"
+        },
+        {
+            quote: "As a Yardi user, integration was our biggest concern. The Apartner team delivered flawlessly. The payment sync is perfect, and it hasn't disrupted our accounting workflows at all. The platform is powerful, reliable, and has genuinely improved our operational efficiency.",
+            customer: "WalkerMill",
+            role: "Emily Rodriguez, Regional Manager"
+        }
+    ];
+
     return (
-        <section id="contact" className="py-20 md:py-32 bg-brand-dark">
-            <div className="container mx-auto px-6 text-center">
+        <section className="py-20 md:py-32">
+            <div className="container mx-auto px-6">
                 <AnimatedSection>
-                    <h2 className="text-3xl md:text-4xl font-bold mb-4">Ready to Unlock Your Property's Potential?</h2>
-                    <p className="text-slate-400 max-w-2xl mx-auto mb-10">
-                        The app is ready for your residents. Let's start your journey to increased profits and happier tenants today.
+                    <h2 className="text-3xl md:text-4xl font-bold text-center mb-4">Trusted by <span className="gold-text">Leading Properties</span></h2>
+                    <p className="text-center max-w-2xl mx-auto text-slate-400 mb-16">
+                        See what property managers and owners are saying about Apartner.
                     </p>
-                    <div className="flex justify-center items-center gap-4 md:gap-6">
-                        <a href="https://apps.apple.com/us/app/affinitee/id1583030327" target="_blank" rel="noopener noreferrer" className="transition-transform hover:scale-105">
-                            <AppStoreIcon className="h-12 md:h-16 w-auto" />
-                        </a>
-                        <a href="https://play.google.com/store/apps/details?id=com.bellrock.affinitee&hl=en" target="_blank" rel="noopener noreferrer" className="transition-transform hover:scale-105">
-                            <GooglePlayIcon className="h-12 md:h-16 w-auto" />
-                        </a>
+                </AnimatedSection>
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    {reviews.map((review, index) => (
+                        <AnimatedSection key={index}>
+                            <div className="bg-brand-dark p-8 rounded-lg h-full flex flex-col">
+                                <div className="flex mb-4">
+                                    {[...Array(5)].map((_, i) => <StarIcon key={i} className="w-5 h-5 text-amber-400" />)}
+                                </div>
+                                <p className="text-slate-300 mb-6 flex-grow">"{review.quote}"</p>
+                                <div>
+                                    <p className="font-bold text-white">{review.role}</p>
+                                    <p className="text-sm gold-text">{review.customer}</p>
+                                </div>
+                            </div>
+                        </AnimatedSection>
+                    ))}
+                </div>
+            </div>
+        </section>
+    )
+}
+
+const ContactForm: React.FC = () => {
+    const [formData, setFormData] = useState({ name: '', company: '', email: '', units: '', message: '' });
+    const [isSending, setIsSending] = useState(false);
+    const [formMessage, setFormMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
+
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        setFormData({ ...formData, [e.target.name]: e.target.value });
+    };
+
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        setIsSending(true);
+        setFormMessage(null);
+
+        // --- SIMULATED API CALL ---
+        // In a real application, you would make a fetch request to your backend here.
+        // The backend would then use the Resend SDK to send the email.
+        // Example:
+        // try {
+        //   const response = await fetch('/api/send-email', {
+        //     method: 'POST',
+        //     headers: { 'Content-Type': 'application/json' },
+        //     body: JSON.stringify(formData),
+        //   });
+        //   if (!response.ok) throw new Error('Network response was not ok.');
+        //   setFormMessage({ type: 'success', text: 'Thank you! We\'ll be in touch soon.' });
+        //   setFormData({ name: '', company: '', email: '', units: '', message: '' });
+        // } catch (error) {
+        //   setFormMessage({ type: 'error', text: 'Something went wrong. Please try again.' });
+        // } finally {
+        //   setIsSending(false);
+        // }
+
+        setTimeout(() => {
+            setIsSending(false);
+            setFormMessage({ type: 'success', text: "Thank you! We'll be in touch soon." });
+            setFormData({ name: '', company: '', email: '', units: '', message: '' });
+        }, 2000);
+    };
+
+    return (
+        <section id="contact" className="py-20 md:py-32 bg-brand-darker">
+            <div className="container mx-auto px-6">
+                <AnimatedSection className="max-w-4xl mx-auto flex flex-col md:flex-row gap-10 md:gap-16 items-center">
+                    <div className="md:w-1/2 text-center md:text-left">
+                        <h2 className="text-3xl md:text-4xl font-bold mb-4">Ready to Unlock Your Property's <span className="gold-text">True Potential</span>?</h2>
+                        <p className="text-slate-400 mb-6">
+                            Fill out the form to schedule a free, no-obligation demo. Discover how Apartner can revolutionize your resident experience and create a powerful new revenue stream for your properties.
+                        </p>
+                         <div className="flex justify-center md:justify-start items-center gap-4 md:gap-6 mt-8">
+                            <a href="https://apps.apple.com/us/app/affinitee/id1583030327" target="_blank" rel="noopener noreferrer" className="transition-transform hover:scale-105">
+                                <AppStoreIcon className="h-12 md:h-14 w-auto" />
+                            </a>
+                            <a href="https://play.google.com/store/apps/details?id=com.bellrock.affinitee&hl=en" target="_blank" rel="noopener noreferrer" className="transition-transform hover:scale-105">
+                                <GooglePlayIcon className="h-12 md:h-14 w-auto" />
+                            </a>
+                        </div>
+                    </div>
+                    <div className="md:w-1/2 w-full">
+                        {formMessage ? (
+                            <div className={`flex flex-col items-center justify-center text-center p-8 rounded-lg h-full ${formMessage.type === 'success' ? 'bg-green-900/50' : 'bg-red-900/50'}`}>
+                                {formMessage.type === 'success' ? <SuccessIcon className="w-12 h-12 text-green-400 mb-4" /> : <ErrorIcon className="w-12 h-12 text-red-400 mb-4" />}
+                                <p className="text-lg font-medium">{formMessage.text}</p>
+                            </div>
+                        ) : (
+                        <form onSubmit={handleSubmit} className="space-y-4">
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                <div>
+                                    <label htmlFor="name" className="sr-only">Full Name</label>
+                                    <input type="text" name="name" id="name" placeholder="Full Name" required value={formData.name} onChange={handleChange} className="w-full bg-slate-800 border border-slate-700 rounded-md py-3 px-4 focus:ring-2 focus:ring-amber-400 focus:border-amber-400 outline-none transition" />
+                                </div>
+                                <div>
+                                    <label htmlFor="company" className="sr-only">Company Name</label>
+                                    <input type="text" name="company" id="company" placeholder="Company Name" required value={formData.company} onChange={handleChange} className="w-full bg-slate-800 border border-slate-700 rounded-md py-3 px-4 focus:ring-2 focus:ring-amber-400 focus:border-amber-400 outline-none transition" />
+                                </div>
+                            </div>
+                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                <div>
+                                    <label htmlFor="email" className="sr-only">Email Address</label>
+                                    <input type="email" name="email" id="email" placeholder="Email Address" required value={formData.email} onChange={handleChange} className="w-full bg-slate-800 border border-slate-700 rounded-md py-3 px-4 focus:ring-2 focus:ring-amber-400 focus:border-amber-400 outline-none transition" />
+                                </div>
+                                 <div>
+                                    <label htmlFor="units" className="sr-only">Number of Units</label>
+                                    <input type="number" name="units" id="units" placeholder="Number of Units" required value={formData.units} onChange={handleChange} className="w-full bg-slate-800 border border-slate-700 rounded-md py-3 px-4 focus:ring-2 focus:ring-amber-400 focus:border-amber-400 outline-none transition" />
+                                </div>
+                            </div>
+                            <div>
+                                <label htmlFor="message" className="sr-only">Message</label>
+                                <textarea name="message" id="message" placeholder="Your Message (Optional)" rows={4} value={formData.message} onChange={handleChange} className="w-full bg-slate-800 border border-slate-700 rounded-md py-3 px-4 focus:ring-2 focus:ring-amber-400 focus:border-amber-400 outline-none transition"></textarea>
+                            </div>
+                            <button type="submit" disabled={isSending} className="w-full btn-gold font-bold py-3 px-6 rounded-full shadow-lg flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed">
+                                {isSending ? <><SpinnerIcon className="w-5 h-5 mr-2" /> Sending...</> : 'Request a Free Demo'}
+                            </button>
+                        </form>
+                        )}
                     </div>
                 </AnimatedSection>
             </div>
@@ -348,10 +461,23 @@ export default function App() {
             <Hero />
             <Showcase />
             <Features />
+            <MiniCTA 
+                title="See What Apartner Can Earn For You."
+                text="Our platform is free for property owners. In fact, we pay you. Find out your potential earnings today."
+                buttonText="Calculate Your Revenue"
+                buttonLink="#contact"
+            />
             <Customization />
             <RevenueModel />
             <Integrations />
-            <CallToAction />
+            <Testimonials />
+            <MiniCTA 
+                title="Ready for a Smoother Operation?"
+                text="See the Yardi integration and our powerful admin dashboard in action. Schedule a personalized demo with our team."
+                buttonText="Schedule a Demo"
+                buttonLink="#contact"
+            />
+            <ContactForm />
         </main>
         <Footer />
     </div>
