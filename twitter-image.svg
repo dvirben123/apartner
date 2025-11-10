@@ -1,0 +1,29 @@
+<svg width="1200" height="675" viewBox="0 0 1200 675" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+        <linearGradient id="background-twitter" x1="0" y1="0" x2="0" y2="675" gradientUnits="userSpaceOnUse">
+            <stop stop-color="#0d1a26"/>
+            <stop offset="1" stop-color="#122b3a"/>
+        </linearGradient>
+        <style>
+            @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap');
+        </style>
+    </defs>
+    <rect width="1200" height="675" fill="url(#background-twitter)"/>
+    
+    <g transform="translate(80 60) scale(1.2)">
+        <path d="M50 0L93.3 25V75L50 100L6.7 75V25L50 0Z" fill="#1a3a4f"/>
+        <path d="M50 5L90.45 28.59V71.41L50 95L9.55 71.41V28.59L50 5Z" stroke="#C4A87E" stroke-width="3"/>
+        <path d="M50 35L67.32 45V65L50 75L32.68 65V45L50 35Z" stroke="#C4A87E" stroke-width="3"/>
+    </g>
+    
+    <text x="80" y="340" font-family="'Poppins', sans-serif" font-size="76" font-weight="700" fill="#f0f4f8">
+        The Only Property Platform
+    </text>
+    <text x="80" y="435" font-family="'Poppins', sans-serif" font-size="76" font-weight="700" fill="#f0f4f8">
+        That <tspan fill="#C4A87E">Pays You.</tspan>
+    </text>
+    
+    <text x="80" y="550" font-family="'Poppins', sans-serif" font-size="34" font-weight="400" fill="#f0f4f8" opacity="0.8">
+        Turn your property into a profit center. Zero cost, zero hassle.
+    </text>
+</svg>
